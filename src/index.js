@@ -26,6 +26,8 @@ setTimeout(function () {
       width: 10px;
       padding: 10px;
       background-color: #FFF;
+      background-image: url('http://storage.zone.photo.sina.com.cn/zone/1000_0/20200926/bb993e4fdc2c6a00e91936f88d3c4c89_6000_4000.jpg?&ssig=PMYOVmkSex&KID=sina,slidenews&Expires=1601378500');
+      background-repeat: repeat;
     }
   `);
 }, 4000);

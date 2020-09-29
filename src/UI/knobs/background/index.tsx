@@ -3,6 +3,7 @@ import styled from "styled-components";
 import TextBox from "../../primitives/text-box";
 import RowPropertyPanel from "../../primitives/row-property-panel";
 import ColorPicker from "../../primitives/color-picker";
+import SingleSelect from '../../primitives/select';
 import { Declarations, UpdateProp, RemoveProp } from "../../store";
 
 const Container = styled.div``;
@@ -15,8 +16,19 @@ interface Props {
 
 const Properties = {
   BackgroundColor: "background-color",
-  BackgroundImage: "background-image"
+  BackgroundImage: "background-image",
+  BackgroundRepeat: "background-repeat"
 };
+
+// 从background-image属性中获取图片链接
+function getUrlFromBackgroundImage(value: string) {
+  if (value) {
+    return value.slice(4, value.length - 1).replace(/['|"]/g, '');
+  }
+  return '';
+  // let str = value.slice(4, value.length - 1);
+};
+
 
 export default function Background({
   declarations,
@@ -43,10 +55,46 @@ export default function Background({
         }}
       >
         <TextBox
-          value={declarations[Properties.BackgroundImage] || ""}
+          value={getUrlFromBackgroundImage(declarations[Properties.BackgroundImage]) || ""}
           onChange={value => {
-            updateProp(Properties.BackgroundImage, value);
+            if (value !== "") {
+              updateProp(Properties.BackgroundImage, `url("${value}")`);
+            } else {
+              removeProp(Properties.BackgroundImage);
+            }
           }}
+        />
+      </RowPropertyPanel>
+      <RowPropertyPanel label="Background repeat">
+        {/* <TextBox
+          value={declarations[Properties.BackgroundRepeat] || ""}
+          onChange={value => {
+            if (value !== "") {
+              updateProp(Properties.BackgroundRepeat, value);
+            } else {
+              removeProp(Properties.BackgroundRepeat);
+            }
+          }}
+        /> */}
+        <SingleSelect
+          onChange={value => {
+            if (value === null) {
+              removeProp(Properties.BackgroundRepeat);
+            } else {
+              updateProp(Properties.BackgroundRepeat, value);
+            }
+          }}
+          value={declarations[Properties.BackgroundRepeat] || ''}
+          options={[
+            {
+              value: 'repeat',
+              label: 'repeat',
+            },
+            {
+              value: 'no-repeat',
+              label: 'no-repeat',
+            }
+          ]}
         />
       </RowPropertyPanel>
     </Container>
