@@ -78,7 +78,7 @@ class StyleEditor {
   }
   private handleCSSChange(prop: string, value: any, type: string) {
     let updatedCSS = '';
-    if (type === 'add') {
+    if (type === 'add' && value !== "") {
       updatedCSS = CSSFileInspector.updateProperty(this.activeBlock as EditableBlock, prop, value, '');
     } else {
       updatedCSS = CSSFileInspector.removeProperty(this.activeBlock as EditableBlock, prop);

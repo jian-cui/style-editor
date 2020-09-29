@@ -144,7 +144,12 @@ export default function TextBoxWithUnit({
         bottomLeft={bottomLeft}
         bottomRight={bottomRight}
         onChange={num => {
-          onChange(num + unit);
+          if (num !== "") {
+            let processedNum = num.replace(/[^\d]/g, ''); // 将中间的非数字去掉
+            onChange(processedNum + unit);
+          } else {
+            onChange("")
+          }
         }}
       />
       {/* <SingleSelect

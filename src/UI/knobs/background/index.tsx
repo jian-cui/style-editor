@@ -14,7 +14,8 @@ interface Props {
 }
 
 const Properties = {
-  BackgroundColor: "background-color"
+  BackgroundColor: "background-color",
+  BackgroundImage: "background-image"
 };
 
 export default function Background({
@@ -22,7 +23,6 @@ export default function Background({
   updateProp,
   removeProp
 }: Props) {
-  console.log(111, declarations);
   return (
     <Container>
       <RowPropertyPanel
@@ -35,6 +35,17 @@ export default function Background({
           color={declarations[Properties.BackgroundColor] || ""}
           onChange={color => {
             updateProp(Properties.BackgroundColor, color);
+          }}
+        />
+      </RowPropertyPanel>
+      <RowPropertyPanel label="Background image" onClear={() => {
+          removeProp(Properties.BackgroundImage);
+        }}
+      >
+        <TextBox
+          value={declarations[Properties.BackgroundImage] || ""}
+          onChange={value => {
+            updateProp(Properties.BackgroundImage, value);
           }}
         />
       </RowPropertyPanel>
