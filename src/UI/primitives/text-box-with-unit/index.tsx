@@ -62,7 +62,7 @@ interface Props {
 // 11px => [11, 'px'];
 function splitData(str: string): Array<string> {
   if (str) {
-    const  regx = /^(\d*)(rem|em|px|pt|ex|pc|in){0,1}/i;
+    const  regx = /^(\d*)(rem|em|px|pt|ex|pc|in|%){0,1}/i;
     const result = regx.exec(str);
     if (result) {
       return [result[1] ? result[1] : '', result[2] ? result[2] : 'px'];
@@ -87,7 +87,12 @@ export default function TextBoxWithUnit({
 
   defaultUnit = defaultUnit ? defaultUnit : 'px';
 
-  let [unit, setUnit] = useState(defaultUnit);
+  // let [unit, setUnit] = useState(defaultUnit);
+  let unit = defaultUnit;
+
+  function setUnit(value: string) {
+    unit = value;
+  }
 
   // let [num, unit] = splitData(value);
 
@@ -104,10 +109,10 @@ export default function TextBoxWithUnit({
       value: 'em',
       label: 'em'
     },
-    // {
-    //   value: '%',
-    //   label: '%'
-    // },
+    {
+      value: '%',
+      label: '%'
+    },
     {
       value: 'vh',
       label: 'vh'
@@ -171,14 +176,13 @@ export default function TextBoxWithUnit({
       <MiniSelect
         value={unit}
         options={options}
-        onChange={(option: any) => {
-          if (option !== unit) {
-            // onChange(num + option)
+        onChange={(value: any) => {
+          if (value!== unit) {
             if (num) {
-              onChange(num + option);
-              setUnit(option);
+              onChange(num + value);
+              setUnit(value);
             } else {
-              setUnit(option);
+              setUnit(value);
             }
           }
         }}

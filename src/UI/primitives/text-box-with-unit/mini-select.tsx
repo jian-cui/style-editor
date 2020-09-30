@@ -121,6 +121,7 @@ export default function MiniSelect({
     styles={customStyles}
     menuPlacement="auto"
     onChange={(option: any) => {
+      console.log(option)
       if (option && option.value) {
         onChange(option.value);
       } else {

@@ -1,9 +1,11 @@
 import React from "react";
 import styled from "styled-components";
 import TextBox from "../../primitives/text-box";
+import TextBoxWithUnit from '../../primitives/text-box-with-unit';
 import RowPropertyPanel from "../../primitives/row-property-panel";
 import ColorPicker from "../../primitives/color-picker";
 import SingleSelect from '../../primitives/select';
+import { Flex } from 'rebass';
 import { Declarations, UpdateProp, RemoveProp } from "../../store";
 
 const Container = styled.div``;
@@ -17,7 +19,8 @@ interface Props {
 const Properties = {
   BackgroundColor: "background-color",
   BackgroundImage: "background-image",
-  BackgroundRepeat: "background-repeat"
+  BackgroundRepeat: "background-repeat",
+  BackgroundPosition: "background-position"
 };
 
 // 从background-image属性中获取图片链接
@@ -29,12 +32,67 @@ function getUrlFromBackgroundImage(value: string) {
   // let str = value.slice(4, value.length - 1);
 };
 
+function positionStr2percent(position: string) {
+  switch(position) {
+    case 'top':
+      return '0%';
+    case 'bottom':
+      return '100%';
+    case 'left':
+      return '0%';
+    case 'right':
+      return '100%';
+    case 'center':
+      return '50%';
+    default:
+      return position;
+  }
+}
+
+
+function convertSinglePosition2Arr(val: string) {
+  switch(val) {
+    case 'center':
+      return ['50%', '50%'];
+    case 'top':
+      return ['0%', '50%'];
+    case 'bottom':
+      return ['100%', '50%'];
+    case 'left':
+      return ['50%', '0%'];
+    case 'right':
+      return ['100%', '0%'];
+    default:
+      return [val, '50%'];
+  }
+}
 
 export default function Background({
   declarations,
   updateProp,
   removeProp
 }: Props) {
+  let [positionX, positionY] = ['0%', '0%'];
+  let positionStr = declarations[Properties.BackgroundPosition] || '';
+  if (positionStr !== '') {
+    let positionArr = positionStr.split(' ');
+  
+    if (positionArr.length >= 2) {
+      positionX = positionStr2percent(positionArr[0]);
+      positionY = positionStr2percent(positionArr[1]);
+    } else {
+      // 只有一个值的情况 另外一个自动设置为50%
+      [positionX, positionY] = convertSinglePosition2Arr(positionArr[0]);
+    }
+  }
+
+  function updateBackgroundPosition(positionX: string, positionY: string) {
+    let x = positionX, y = positionY; 
+    if (!x) x = '50%';
+    if (!y) y = '50%';
+    updateProp(Properties.BackgroundPosition, `${x} ${y}`);
+  }
+
   return (
     <Container>
       <RowPropertyPanel
@@ -96,6 +154,29 @@ export default function Background({
             }
           ]}
         />
+      </RowPropertyPanel>
+      <RowPropertyPanel label="Background position">
+        <Flex>
+          <TextBoxWithUnit
+            value={positionX || ""}
+            onChange={value => {
+              // positionX = value;
+
+              updateBackgroundPosition(value, positionY);
+            }}
+          />
+        </Flex>
+        <div style={{width:'20px'}}></div>
+        <Flex>
+          <TextBoxWithUnit
+            value={positionY || ""}
+            onChange={value => {
+              // positionY = value;
+
+              updateBackgroundPosition(positionX, value);
+            }}
+          />
+        </Flex>
       </RowPropertyPanel>
     </Container>
   );
