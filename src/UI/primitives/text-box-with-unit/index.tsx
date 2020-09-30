@@ -55,6 +55,10 @@ interface Props {
   topRight?: string;
   bottomLeft?: string;
   bottomRight?: string;
+  selectOptions?: {
+    value: any;
+    label: string;
+  }[],
   onChange: (value: string) => void;
 }
 
@@ -81,18 +85,19 @@ export default function TextBoxWithUnit({
   bottomLeft,
   bottomRight,
   tooltip,
+  selectOptions,
   onChange
 }: Props) {
   let [num, defaultUnit] = splitData(value);
 
   defaultUnit = defaultUnit ? defaultUnit : 'px';
 
-  // let [unit, setUnit] = useState(defaultUnit);
-  let unit = defaultUnit;
+  let [unit, setUnit] = useState(defaultUnit);
+  // let unit = defaultUnit;
 
-  function setUnit(value: string) {
-    unit = value;
-  }
+  // function setUnit(value: string) {
+  //   unit = value;
+  // }
 
   // let [num, unit] = splitData(value);
 
@@ -175,7 +180,7 @@ export default function TextBoxWithUnit({
       /> */}
       <MiniSelect
         value={unit}
-        options={options}
+        options={ selectOptions ? selectOptions : options }
         onChange={(value: any) => {
           if (value!== unit) {
             if (num) {

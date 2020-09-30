@@ -1,9 +1,12 @@
 import React from "react";
 import { Flex } from "rebass";
 import styled from "styled-components";
-import TextBox from "../../primitives/text-box";
+// import TextBox from "../../primitives/text-box";
+import TextBoxWithUnit from '../../primitives/text-box-with-unit';
 import { Declarations, UpdateProp, RemoveProp } from "../../store";
 import Clear from "../../primitives/clear-icon";
+
+const TextBox = TextBoxWithUnit;
 
 const Container = styled.div`
   display: flex;
@@ -31,6 +34,29 @@ const Sides = {
   BottomRight: 3
 };
 
+const unitOptions = [
+  {
+    value: 'px',
+    label: 'px'
+  },
+  {
+    value: 'rem',
+    label: 'rem'
+  },
+  {
+    value: 'em',
+    label: 'em'
+  },
+  {
+    value: 'vh',
+    label: 'vh'
+  },
+  {
+    value: 'vw',
+    label: 'vw'
+  }
+]
+
 export default function BorderRadius({
   declarations,
   updateProp,
@@ -55,7 +81,7 @@ export default function BorderRadius({
   return (
     <Flex justifyContent="center">
       <Container>
-        <Flex justifyContent="space-between">
+        {/* <Flex justifyContent="space-between">
           <TextBox
             topLeft="30px"
             value={getValue(Sides.TopLeft)}
@@ -103,6 +129,56 @@ export default function BorderRadius({
             }}
             width="50px"
             tooltip="Bottom right"
+          />
+        </Flex> */}
+        <Flex justifyContent="space-between">
+          <TextBox
+            value={getValue(Sides.TopLeft)}
+            onChange={value => {
+              handleChange(Sides.TopLeft, value);
+            }}
+            align="right"
+            width="60px"
+            tooltip="Top left"
+            selectOptions={unitOptions}
+          />
+          <TextBox
+            value={getValue(Sides.TopRight)}
+            onChange={value => {
+              handleChange(Sides.TopRight, value);
+            }}
+            width="60px"
+            tooltip="Top right"
+            selectOptions={unitOptions}
+          />
+        </Flex>
+        <Flex justifyContent="center">
+          <Clear
+            tooltip="Clear border radius"
+            onClear={() => {
+              removeProp(Properties.BorderRadius);
+            }}
+          />
+        </Flex>
+        <Flex justifyContent="space-between">
+          <TextBox
+            value={getValue(Sides.BottomLeft)}
+            onChange={value => {
+              handleChange(Sides.BottomLeft, value);
+            }}
+            align="right"
+            width="60px"
+            tooltip="Bottom left"
+            selectOptions={unitOptions}
+          />
+          <TextBox
+            value={getValue(Sides.BottomRight)}
+            onChange={value => {
+              handleChange(Sides.BottomRight, value);
+            }}
+            width="60px"
+            tooltip="Bottom right"
+            selectOptions={unitOptions}
           />
         </Flex>
       </Container>
