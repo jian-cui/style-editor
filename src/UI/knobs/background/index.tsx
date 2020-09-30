@@ -33,20 +33,27 @@ function getUrlFromBackgroundImage(value: string) {
 };
 
 function positionStr2percent(position: string) {
+  let result = '';
   switch(position) {
     case 'top':
-      return '0%';
+      result= '0%';
+      break;
     case 'bottom':
-      return '100%';
+      result= '100%';
+      break;
     case 'left':
-      return '0%';
+      result= '0%';
+      break;
     case 'right':
-      return '100%';
+      result= '100%';
+      break;
     case 'center':
-      return '50%';
+      result= '50%';
+      break;
     default:
-      return position;
+      result = position;
   }
+  return result;
 }
 
 
@@ -72,11 +79,12 @@ export default function Background({
   updateProp,
   removeProp
 }: Props) {
-  let [positionX, positionY] = ['0%', '0%'];
-  let positionStr = declarations[Properties.BackgroundPosition] || '';
+  let [positionX, positionY] = ['', ''];
+  let initPosition = declarations[Properties.BackgroundPosition];
+
+  let positionStr = initPosition || '';
   if (positionStr !== '') {
     let positionArr = positionStr.split(' ');
-  
     if (positionArr.length >= 2) {
       positionX = positionStr2percent(positionArr[0]);
       positionY = positionStr2percent(positionArr[1]);
@@ -155,7 +163,9 @@ export default function Background({
           ]}
         />
       </RowPropertyPanel>
-      <RowPropertyPanel label="Background position">
+      <RowPropertyPanel label="Background position" onClear={() => {
+          removeProp(Properties.BackgroundPosition)
+        }}>
         <Flex>
           <TextBoxWithUnit
             value={positionX || ""}
