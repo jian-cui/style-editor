@@ -20,7 +20,8 @@ const Properties = {
   BackgroundColor: "background-color",
   BackgroundImage: "background-image",
   BackgroundRepeat: "background-repeat",
-  BackgroundPosition: "background-position"
+  BackgroundPosition: "background-position",
+  BackgroundAttachment: "background-attachment"
 };
 
 // 从background-image属性中获取图片链接
@@ -163,9 +164,12 @@ export default function Background({
           ]}
         />
       </RowPropertyPanel>
-      <RowPropertyPanel label="Background position" onClear={() => {
+      <RowPropertyPanel
+        label="Background position"
+        onClear={() => {
           removeProp(Properties.BackgroundPosition)
-        }}>
+        }}
+      >
         <Flex>
           <TextBoxWithUnit
             value={positionX || ""}
@@ -187,6 +191,32 @@ export default function Background({
             }}
           />
         </Flex>
+      </RowPropertyPanel>
+      <RowPropertyPanel label="Background attachment">
+        <SingleSelect
+          onChange={value => {
+            if (value === null) {
+              removeProp(Properties.BackgroundAttachment);
+            } else {
+              updateProp(Properties.BackgroundAttachment, value);
+            }
+          }}
+          value={declarations[Properties.BackgroundAttachment] || ''}
+          options={[
+            {
+              value: 'scroll',
+              label: 'scroll',
+            },
+            {
+              value: 'fixed',
+              label: 'fixed',
+            },
+            {
+              value: 'inherit',
+              label: 'inherit'
+            }
+          ]}
+        />
       </RowPropertyPanel>
     </Container>
   );
