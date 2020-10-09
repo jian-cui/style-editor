@@ -20,6 +20,7 @@ const Preview = styled.div<StyleProps>`
 `;
 const PopOver = styled.div`
   position: absolute;
+  z-index: 1;
 `;
 
 const Blanket = styled.div`
