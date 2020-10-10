@@ -309,6 +309,7 @@ export default function Background({
           onChange={value => {
             if (value !== "") {
               let result = `url("${value}")`;
+              // 如果是渐变色 保持原样
               if (value.startsWith('linear-gradient') || value.startsWith('radial-gradient')) {
                 result = value;
               }
