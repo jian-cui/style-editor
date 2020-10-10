@@ -1,8 +1,10 @@
 import React from "react";
 import styled from "styled-components";
-import TextBox from "../../primitives/text-box";
+// import TextBox from "../../primitives/text-box";
+import TextBoxWithUnit from "../../primitives/text-box-with-unit";
 import RowPropertyPanel from "../../primitives/row-property-panel";
 import ColorPicker from "../../primitives/color-picker";
+import { Flex } from "rebass";
 import SingleSelect from "../../primitives/select";
 import { Declarations, UpdateProp, RemoveProp } from "../../store";
 
@@ -15,7 +17,11 @@ interface Props {
 }
 
 const Properties = {
-  Position: "position"
+  Position: "position",
+  Left: "left",
+  Right: "right",
+  Top: "top",
+  Bottom: "bottom"
 };
 
 export default function Position({
@@ -24,8 +30,13 @@ export default function Position({
   removeProp
 }: Props) {
   return (
-    <Container>
-      <RowPropertyPanel label="Position">
+    // <Container>
+    <Flex flexDirection="column">
+      <RowPropertyPanel
+        label="Position"
+        minWidth="60px"
+        // marginRight="10px"
+      >
         <SingleSelect
           onChange={value => {
             if (value === null) {
@@ -67,6 +78,51 @@ export default function Position({
           ]}
         />
       </RowPropertyPanel>
-    </Container>
+      <Flex>
+        <RowPropertyPanel
+          minWidth="60px"
+          marginRight="10px"
+          label="Left"
+          onClear={() => {
+            removeProp(Properties.Left);
+          }}
+        >
+          <TextBoxWithUnit value={declarations[Properties.Left] || ''} onChange={value => updateProp(Properties.Left, value)} />
+        </RowPropertyPanel>
+        <RowPropertyPanel
+          label="Right"
+          minWidth="60px"
+          marginRight="10px"
+          onClear={() => {
+            removeProp(Properties.Right);
+          }}
+        >
+          <TextBoxWithUnit value={declarations[Properties.Right] || ''} onChange={value => updateProp(Properties.Right, value)} />
+        </RowPropertyPanel>
+      </Flex>
+      <Flex>
+        <RowPropertyPanel
+          minWidth="60px"
+          marginRight="10px"
+          label="Top"
+          onClear={() => {
+            removeProp(Properties.Top);
+          }}
+        >
+          <TextBoxWithUnit value={declarations[Properties.Top] || ''} onChange={value => updateProp(Properties.Top, value)} />
+        </RowPropertyPanel>
+        <RowPropertyPanel
+          label="Bottom"
+          minWidth="60px"
+          marginRight="10px"
+          onClear={() => {
+            removeProp(Properties.Bottom);
+          }}
+        >
+          <TextBoxWithUnit value={declarations[Properties.Bottom] || ''} onChange={value => updateProp(Properties.Bottom, value)} />
+        </RowPropertyPanel>
+      </Flex>
+    {/* </Container> */}
+    </Flex>
   );
 }
