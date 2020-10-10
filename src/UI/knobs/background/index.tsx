@@ -87,7 +87,18 @@ function isColor(value: string): boolean {
 
 function isImg(value: string): boolean {
   const val = value.trim();
-  return val.startsWith('url(') || val.startsWith('linear-gradient') || val.startsWith('radial-gradient');
+  return val.startsWith('url(')
+    || val.startsWith('linear-gradient')
+    || val.startsWith('-webkit-linear-gradient')
+    || val.startsWith('-moz-linear-gradient')
+    || val.startsWith('-o-linear-gradient')
+    || val.startsWith('-ms-linear-gradient')
+    
+    || val.startsWith('radial-gradient')
+    || val.startsWith('-webkit-radial-gradient')
+    || val.startsWith('-moz-radial-gradient')
+    || val.startsWith('-o-radial-gradient')
+    || val.startsWith('-ms-radial-gradient');
 }
 
 function isRepeat(value: string): boolean {
