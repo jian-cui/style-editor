@@ -121,7 +121,7 @@ export default function App() {
       <Fragment>
         <GlobalStyles />
         <ThemeProvider theme={theme}>
-          <Empty />
+          {/* <Empty /> */}
         </ThemeProvider>
       </Fragment>
     );
